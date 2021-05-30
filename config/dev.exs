@@ -9,7 +9,7 @@ use Mix.Config
 config :govee_phx, GoveePhxWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
-  code_reloader: true,
+  code_reloader: false,
   check_origin: false,
   watchers: [
     node: [
@@ -59,25 +59,17 @@ config :govee_phx, GoveePhxWeb.Endpoint,
 config :govee_phx,
   govee_ble_devices: [
     [
-      type: :h6001,
-      addr: 0xA4C138EC49BD
-    ],
-    [
-      type: :h6001,
-      addr: 0xA4C1385184DA
-    ],
-    [
-      type: :h6159,
-      addr: 0xA4C138668E6F
+      type: :h6170,
+      addr: 0xA4C1387A91EA
     ]
   ]
 
 config :govee_phx,
   transport_config: %{
-    vid: 0x0A5C,
-    pid: 0x21E8
+    device: "/dev/ttyAMA0",
+    uart_opts: [speed: 115200]
   },
-  transport_type: :usb
+  transport_type: :uart
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
