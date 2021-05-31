@@ -31,7 +31,7 @@ RUN wget -P /tmp/ https://www.kernel.org/pub/linux/bluetooth/bluez-${BLUEZ_VERSI
     && make install
 
 #STEP 2 of multistage build ----Setup Elixir and Dependencies-----
-FROM balenalib/araspberry-pi-debian:buster-20210506 as elixirbuilder
+FROM balenalib/raspberry-pi-debian:buster-20210506 as elixirbuilder
 
 RUN sudo apt-get update && sudo apt-get install -y \
         libusb-1.0-0-dev \
