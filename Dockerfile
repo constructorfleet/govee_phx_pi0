@@ -140,6 +140,7 @@ RUN apt-get update && apt-get install -y \
 COPY "./init.d/*" /etc/init.d/
 
 # Copy Bluez Tools From btbuilder Container
+WORKDIR /usr/bin
 COPY --from=bbtuilder /usr/bin/bluetoothctl
                     /usr/bin/btmon
                     /usr/bin/rctest
@@ -157,38 +158,53 @@ COPY --from=bbtuilder /usr/bin/bluetoothctl
                     /usr/bin/rfcomm
                     /usr/bin/sdptool
                     /usr/bin/ciptool
-                    /usr/bin/
+                    ./
+WORKDIR /usr/libexec/bluetooth
 COPY --from=bbtuilder /usr/libexec/bluetooth/bluetoothd
                     /usr/libexec/bluetooth/obexd
-                    /usr/libexec/bluetooth/
+                    ./
+WORKDIR /usr/lib/cups/backend
 COPY --from=bbtuilder /usr/lib/cups/backend/bluetooth
-                    /usr/lib/cups/backend/
+                    ./
+WORKDIR /etc/dbus-1/system.d
 COPY --from=bbtuilder /etc/dbus-1/system.d/bluetooth.conf
-                    /etc/dbus-1/system.d/
+                    ./
+WORKDIR /usr/share/dbus-1/services
 COPY --from=bbtuilder /usr/share/dbus-1/services/org.bluez.obex.service
-                    /usr/share/dbus-1/services/
+                    ./
+WORKDIR /usr/share/dbus-1/system-services
 COPY --from=bbtuilder /usr/share/dbus-1/system-services/org.bluez.service
-                    /usr/share/dbus-1/system-services/
+                    ./
+WORKDIR /usr/include/bluetooth
 COPY --from=bbtuilder /usr/include/bluetooth/*
-                    /usr/include/bluetooth/
-COPY --from=bbtuilder /usr/share/man/man1*
-                    /usr/share/man/man1/
+                    ./
+WORKDIR /usr/share/man/man1
+COPY --from=bbtuilder /usr/share/man/man1/*
+                    ./
+WORKDIR /usr/share/man/man8
 COPY --from=bbtuilder /usr/share/man/man8/bluetoothd.8
-                    /usr/share/man/man8/
+                    ./
+WORKDIR /usr/lib/pkgconfig
 COPY --from=bbtuilder /usr/lib/pkgconfig/bluez.pc
-                    /usr/lib/pkgconfig/
+                    ./
+WORKDIR /usr/lib/bluetooth/plugins
 COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.so
-                    /usr/lib/bluetooth/plugins/
+                    ./
+WORKDIR /usr/lib/bluetooth/plugins
 COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.la
-                    /usr/lib/bluetooth/plugins/
+                    ./
+WORKDIR /lib/udev/rules.d
 COPY --from=bbtuilder /lib/udev/rules.d/97-hid2hci.rules
-                    /lib/udev/rules.d/
+                    ./
+WORKDIR /lib/systemd/system
 COPY --from=bbtuilder /lib/systemd/system/bluetooth.service
-                    /lib/systemd/system/
+                    ./
+WORKDIR /usr/lib/systemd/user
 COPY --from=bbtuilder /usr/lib/systemd/user/obex.service
-                    /usr/lib/systemd/user/
+                    ./
+WORKDIR /lib/udev
 COPY --from=bbtuilder /lib/udev/hid2hci
-                    /lib/udev/
+                    ./
 
 #SSH port
 EXPOSE 22
