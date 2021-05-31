@@ -141,69 +141,69 @@ COPY "./init.d/*" /etc/init.d/
 
 # Copy Bluez Tools From btbuilder Container
 WORKDIR /usr/bin
-COPY --from=bbtuilder /usr/bin/bluetoothctl
-                    /usr/bin/btmon
-                    /usr/bin/rctest
-                    /usr/bin/l2test
-                    /usr/bin/l2ping
-                    /usr/bin/bccmd
-                    /usr/bin/bluemoon
-                    /usr/bin/hex2hcd
-                    /usr/bin/mpris-proxy
-                    /usr/bin/btattach
-                    /usr/bin/hciattach
-                    /usr/bin/hciconfig
-                    /usr/bin/hcitool
-                    /usr/bin/hcidump
-                    /usr/bin/rfcomm
-                    /usr/bin/sdptool
-                    /usr/bin/ciptool
+COPY --from=bbtuilder /usr/bin/bluetoothctl \
+                    /usr/bin/btmon \
+                    /usr/bin/rctest \
+                    /usr/bin/l2test \
+                    /usr/bin/l2ping \
+                    /usr/bin/bccmd \
+                    /usr/bin/bluemoon \
+                    /usr/bin/hex2hcd \
+                    /usr/bin/mpris-proxy \
+                    /usr/bin/btattach \
+                    /usr/bin/hciattach \
+                    /usr/bin/hciconfig \
+                    /usr/bin/hcitool \
+                    /usr/bin/hcidump \
+                    /usr/bin/rfcomm \
+                    /usr/bin/sdptool \
+                    /usr/bin/ciptool \
                     ./
 WORKDIR /usr/libexec/bluetooth
-COPY --from=bbtuilder /usr/libexec/bluetooth/bluetoothd
-                    /usr/libexec/bluetooth/obexd
+COPY --from=bbtuilder /usr/libexec/bluetooth/bluetoothd \
+                    /usr/libexec/bluetooth/obexd \
                     ./
 WORKDIR /usr/lib/cups/backend
-COPY --from=bbtuilder /usr/lib/cups/backend/bluetooth
+COPY --from=bbtuilder /usr/lib/cups/backend/bluetooth \
                     ./
 WORKDIR /etc/dbus-1/system.d
-COPY --from=bbtuilder /etc/dbus-1/system.d/bluetooth.conf
+COPY --from=bbtuilder /etc/dbus-1/system.d/bluetooth.conf \
                     ./
 WORKDIR /usr/share/dbus-1/services
-COPY --from=bbtuilder /usr/share/dbus-1/services/org.bluez.obex.service
+COPY --from=bbtuilder /usr/share/dbus-1/services/org.bluez.obex.service \
                     ./
 WORKDIR /usr/share/dbus-1/system-services
-COPY --from=bbtuilder /usr/share/dbus-1/system-services/org.bluez.service
+COPY --from=bbtuilder /usr/share/dbus-1/system-services/org.bluez.service \
                     ./
 WORKDIR /usr/include/bluetooth
-COPY --from=bbtuilder /usr/include/bluetooth/*
+COPY --from=bbtuilder /usr/include/bluetooth/* \
                     ./
 WORKDIR /usr/share/man/man1
-COPY --from=bbtuilder /usr/share/man/man1/*
+COPY --from=bbtuilder /usr/share/man/man1/* \
                     ./
 WORKDIR /usr/share/man/man8
-COPY --from=bbtuilder /usr/share/man/man8/bluetoothd.8
+COPY --from=bbtuilder /usr/share/man/man8/bluetoothd.8 \
                     ./
 WORKDIR /usr/lib/pkgconfig
-COPY --from=bbtuilder /usr/lib/pkgconfig/bluez.pc
+COPY --from=bbtuilder /usr/lib/pkgconfig/bluez.pc \
                     ./
 WORKDIR /usr/lib/bluetooth/plugins
-COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.so
+COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.so \
                     ./
 WORKDIR /usr/lib/bluetooth/plugins
-COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.la
+COPY --from=bbtuilder /usr/lib/bluetooth/plugins/external-dummy.la \
                     ./
 WORKDIR /lib/udev/rules.d
-COPY --from=bbtuilder /lib/udev/rules.d/97-hid2hci.rules
+COPY --from=bbtuilder /lib/udev/rules.d/97-hid2hci.rules \
                     ./
 WORKDIR /lib/systemd/system
-COPY --from=bbtuilder /lib/systemd/system/bluetooth.service
+COPY --from=bbtuilder /lib/systemd/system/bluetooth.service \
                     ./
 WORKDIR /usr/lib/systemd/user
-COPY --from=bbtuilder /usr/lib/systemd/user/obex.service
+COPY --from=bbtuilder /usr/lib/systemd/user/obex.service \
                     ./
 WORKDIR /lib/udev
-COPY --from=bbtuilder /lib/udev/hid2hci
+COPY --from=bbtuilder /lib/udev/hid2hci \
                     ./
 
 #SSH port
