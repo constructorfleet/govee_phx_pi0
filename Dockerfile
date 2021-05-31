@@ -210,66 +210,7 @@ COPY --from=bbtuilder /lib/udev/hid2hci \
 EXPOSE 22
 
 #do startscript
-ENTRYPOINT ["/etc/init.d/entrypoint.sh"]
+ENTRYPOINT ["/etc/init.d/entrypoint.sh", "/opt/elixir/bin/mix phx.server"]
 
 #set STOPSGINAL
 STOPSIGNAL SIGTERM
-
-
-FROM balenalib/raspberry-pi-debian:buster
-RUN sudo apt-get update && sudo apt-get install -y \
-        libusb-1.0-0-dev \
-        libssl-dev \
-	vim \
-	git \
-        wget \
-        unzip \
-        gcc \
-        make \
-        inotify-tools \
- 	libncurses5 \
-	libncurses5-dev \
-	libwxbase3.0-0v5 \
-	libwxbase3.0-dev \
-	libwxgtk3.0-0v5 \
-	libwxgtk3.0-dev \
-        libsctp1 \
-        nodejs \
-        npm
-
-
-WORKDIR /usr/lib/jvm
-
-RUN sudo wget https://cdn.azul.com/zulu-embedded/bin/zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf.tar.gz && \
-	sudo tar -xzvf zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf.tar.gz && \
-	sudo rm -f zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf.tar.gz && \
-        sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf/bin/java 1 && \
-        sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf/bin/javac 1 && \
-        sudo update-alternatives --set java /usr/lib/jvm/zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf/bin/java && \
-        sudo update-alternatives --set javac /usr/lib/jvm/zulu11.48.21-ca-jdk11.0.11-linux_aarch32hf/bin/javac
-
-
-WORKDIR /opt/erlang
-RUN sudo wget https://packages.erlang-solutions.com/erlang/debian/pool/esl-erlang_21.3.8.10-1~raspbian~buster_armhf.deb && \
-	sudo dpkg -i esl-erlang_21.3.8.10-1~raspbian~buster_armhf.deb
-
-WORKDIR /opt/elixir
-RUN sudo wget https://github.com/elixir-lang/elixir/releases/download/v1.10.0/Precompiled.zip && \
-	sudo unzip Precompiled.zip -d . && \
-        sudo rm -f Precompiled.zip
-
-WORKDIR /srv/govee
-
-RUN ln -s /opt/elixir/bin/elixir /usr/bin/elixir && \
-	ln -s /opt/elixir/bin/mix /usr/bin/mix && \
-        /opt/elixir/bin/mix local.hex --force && \
-        /opt/elixir/bin/mix local.rebar --force
-
-COPY . .
-
-RUN export MIX_ENV=dev && \
-	/opt/elixir/bin/mix deps.get --unlock && \
-	/opt/elixir/bin/mix compile && \
-    /bin/bash contrib/fix_perms.sh
-
-ENTRYPOINT ["/etc/init.d/entrypoint.sh", "/opt/elixir/bin/mix phx.server"]
