@@ -1,5 +1,5 @@
 #STEP 1 of multistage build ---Compile Bluetooth stack-----
-FROM balenalib/araspberry-pi-debian:buster-20210506 as btbuilder
+FROM balenalib/raspberry-pi-debian:buster-20210506 as btbuilder
 
 #environment variables
 ENV BLUEZ_VERSION 5.54
